@@ -1,0 +1,17 @@
+module.exports = {
+    isProduction: true,
+    app : {
+        port: 3000,
+        routes: {
+            firstsite: true,
+            secondsite: true
+        },
+        logging: {
+            name: 'edutrainers-master-server',
+            src: false,
+            path: `${global.__base}logs/`,
+            level: 'info'
+        }
+    }
+}
+

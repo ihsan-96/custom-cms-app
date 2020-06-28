@@ -1,0 +1,29 @@
+{
+  "name": "edutrainers",
+  "version": "1.0.0",
+  "description": "Master backend for edutrainers web network",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ihsan-96/edutrainers.git"
+  },
+  "keywords": [
+    "edutrainers"
+  ],
+  "author": "Ameen Ahsan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ihsan-96/edutrainers/issues"
+  },
+  "homepage": "https://github.com/ihsan-96/edutrainers#readme",
+  "dependencies": {
+    "bunyan": "^1.8.13",
+    "express": "^4.17.1",
+    "lodash": "^4.17.15",
+    "moment": "^2.27.0",
+    "moment-timezone": "^0.5.31"
+  }
+}
