@@ -4,12 +4,13 @@ module.exports = {
         port: 3001,
         routes: {
             firstsite: true,
-            secondsite: true
+            secondsite: true,
+            programs: true
         },
         logging: {
             name: 'edutrainers-master-server',
             src: true,
-            path: `${global.__base}logs/`,
+            path: `${global.__base}logs/edutrainers.log`,
             level: 'info'
         }
     }

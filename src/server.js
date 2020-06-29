@@ -1,15 +1,20 @@
 'use strict'
 
 const config = require(`${global.__base}config`)
+const loadProgramsFiles = require(`${global.__base}loaders/programs/loadFiles`)
+
+let log;
 
 class Server {
 
     constructor(logger) {
         this.log = logger
+        log = logger
         // Add any member variables here
     }
 
     start () {
+        const self = this
         const enabledRoutes = config.app.routes
         const routeSpecificStarters = {
             firstsite: () => {
@@ -23,17 +28,31 @@ class Server {
                     // Second site specific starters
                     resolve()
                 })
+            },
+            programs: () => {
+                const loadProgramsFilesPromise = loadProgramsFiles.load(self.log)
+
+                return Promise.all([
+                    loadProgramsFilesPromise
+                ])
             }
         }
         const serviceStarters = [
             // Add connection functions returning promises of common services and componenets
         ]
+        const starterPromises = []
+
         Object.keys(enabledRoutes).forEach(route => {
             if (enabledRoutes[route]) {
                 serviceStarters.push(routeSpecificStarters[route])
             }
         })
-        return Promise.all(serviceStarters)
+
+        serviceStarters.forEach(starter => {
+            starterPromises.push(starter())
+        })
+
+        return Promise.all(starterPromises)
     }
 
     faviconHandler (req, res, next) {
@@ -44,7 +63,15 @@ class Server {
         }
     }
 
-    stop() {
+    prepareRequest (req, res, next) {
+        req.log = log.child({
+            backend: 'NodeJs'
+            // you can add fields that should be there on all the logs
+        })
+        next()
+    }
+
+    stop () {
         const enabledRoutes = config.app.routes
         const routeSpecificStoppers = {
             firstsite: () => {
@@ -63,12 +90,19 @@ class Server {
         const serviceStoppers = [
             // Add connection functions returning promises of common services and componenets
         ]
+        const stopperPromises = []
+
         Object.keys(enabledRoutes).forEach(route => {
             if (enabledRoutes[route]) {
                 serviceStoppers.push(routeSpecificStoppers[route])
             }
         })
-        return Promise.all(serviceStoppers)
+
+        serviceStoppers.forEach(stopper => {
+            stopperPromises.push(stopper())
+        })
+
+        return Promise.all(stopperPromises)
     }
 }
 

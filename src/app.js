@@ -27,16 +27,18 @@ server.start()
     const routes = require(`${global.__base}routes`)
     const app = new express()
 
+    app.use(server.faviconHandler)
+    app.use(server.prepareRequest)
     app.use('/', routes)
 
     app.listen(PORT, () => {
-        console.log(`Express app listening on port ${PORT}..`)
+        log.info(`Express app listening on port ${PORT}..`)
     })
 
 }).catch(err => {
 
-    console.log(`Error occured while starting services : `)
-    console.log(err)
+    log.error(`Error occured while starting services : `)
+    log.error(JSON.stringify(err))
     process.exit(1)
 
 })

@@ -6,7 +6,8 @@ const config = require(`${global.__base}config`)
 
 const routes = {
     firstsite : require(`${global.__base}routes/firstsite`),
-    secondsite : require(`${global.__base}routes/secondsite`)
+    secondsite : require(`${global.__base}routes/secondsite`),
+    programs: require(`${global.__base}routes/programs`)
     /**
      * To add new sites
      * Add routes to new sites here
@@ -28,7 +29,6 @@ const enabledRoutes = config.app.routes
 
 Object.keys(enabledRoutes).forEach(route => {
     if (enabledRoutes[route]) {
-        console.log(route)
         router.use(`/${route}`, routes[route])
     }
 })
